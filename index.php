@@ -1,42 +1,56 @@
+<?php
+session_start();
+
+if (isset($_SESSION["user_id"])) {
+    header("Location: upload.php"); 
+    exit();
+}
+
+$db = new mysqli("localhost", "root", "abhinav", "new_database");
+
+if ($db->connect_error) {
+    die("Connection failed: " . $db->connect_error);
+}
+
+$loginError = "";
+
+if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["login"])) {
+    $username = $_POST["username"];
+    $password = $_POST["password"];
+
+    $query = "SELECT id, username, password FROM users WHERE username = '$username'";
+    $result = $db->query($query);
+
+    if ($result->num_rows === 1) {
+        $row = $result->fetch_assoc();
+        if (password_verify($password, $row["password"])) {
+            $_SESSION["user_id"] = $row["id"];
+            $_SESSION["username"] = $row["username"];
+            header("Location: upload.php"); 
+            exit();
+        } else {
+            $loginError = "Invalid password.";
+        }
+    } else {
+        $loginError = "User not found.";
+    }
+}
+
+$db->close();
+?>
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Todo List App</title>
-    <link rel="stylesheet" href="style.css">
+    <title>Login</title>
 </head>
 <body>
-
-
-    <div class="main">
-        <h1>Todo List</h1>
-        <form action="add_task.php" method="POST">
-            <input type="text" name="task" placeholder="Enter a new task">
-            <button type="submit">Add Task</button>
-        </form>
-    
-
-        <?php
-        // Display tasks from the database
-        $conn = new mysqli("localhost", "root", "abhinav", "new_database");
-        if ($conn->connect_error) {
-            die("Connection failed: " . $conn->connect_error);
-        }
-
-        $sql = "SELECT * FROM tasks ORDER BY created_at DESC";
-        $result = $conn->query($sql);
-
-        if ($result->num_rows > 0) {
-            echo "<ul>";
-            while ($row = $result->fetch_assoc()) {
-                echo "<li>" . $row["task"] . "</li>";
-            }
-            echo "</ul>";
-        } else {
-            echo "No tasks yet.";
-        }
-
-        $conn->close();
-        ?>
-    </div>
+    <h1>Login</h1>
+    <form method="POST">
+        <input type="text" name="username" placeholder="Username" required><br>
+        <input type="password" name="password" placeholder="Password" required><br>
+        <button type="submit" name="login">Login</button>
+    </form>
+    <?php if (!empty($loginError)) { echo "<p>$loginError</p>"; } ?>
+    <p>Don't have an account? <a href="register.php">Register</a></p>
 </body>
 </html>
