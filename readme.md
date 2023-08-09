@@ -12,5 +12,7 @@ CREATE TABLE uploaded_data (
 # authentication
 
 username: root
+
 password: abhinav
+
 database name: new_database
