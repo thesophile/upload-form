@@ -1,5 +1,8 @@
 I will upload this to a live server shortly and share the link here.
 
+file:///home/abhinav/Videos/Screen%20records/2023-08-09%2021-15-53.mkv
+
+
 # mysql commands:
 
 CREATE TABLE uploaded_data (
