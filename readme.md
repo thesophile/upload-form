@@ -1,3 +1,6 @@
 [demo video](demo.mkv)
 
-[sql file](upload.sql)
+
+# Run Locally
+
+Import this [sql file](upload.sql)
