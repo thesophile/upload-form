@@ -5,7 +5,7 @@ CREATE USER 'root'@'localhost' IDENTIFIED BY 'abhinav';
 GRANT ALL PRIVILEGES ON new_database.* TO 'root'@'localhost';
 FLUSH PRIVILEGES;
 
-USE new_database;
+USE new_database
 
 CREATE TABLE uploaded_data (
          id INT AUTO_INCREMENT PRIMARY KEY,
