@@ -1,7 +1,5 @@
 [demo video](demo.mkv)
 
-I will upload this to a live server shortly and share the link here.
-
 # mysql commands:
 
 CREATE TABLE uploaded_data (
